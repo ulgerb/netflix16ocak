@@ -30,5 +30,5 @@ urlpatterns = [
     path('account/', accountPage, name='accountPage'),
     path('login/', loginUser, name='loginUser'),
     path('register/', registerUser, name='registerUser'), 
-    
+    path('profildelete/<id>/', profilDelete, name='profilDelete')
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
