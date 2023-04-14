@@ -9,16 +9,25 @@ from .models import Profil
 def profilePage(request):
    profils = Profil.objects.filter(user=request.user)
 
-   print(len(profils))
-   if len(profils) < 4:
-      if request.method == "POST":
-         name = request.POST.get("name")
-         image = request.FILES.get("image")
+   if request.method == "POST":
+      button = request.POST.get("submit")
+      if button == "profil-create":
+         if len(profils) < 4:
+            name = request.POST.get("name")
+            image = request.FILES.get("image")
 
-         profil = Profil(title=name, image=image, user=request.user)
-         profil.save()
+            profil = Profil(title=name, image=image, user=request.user)
+            profil.save()
+            return redirect('profilePage')
+      elif button == "profil-password":
+            password = request.POST.get("password") # 123
+            profilid = request.POST.get("profilid")
+            profil = Profil.objects.get(id=profilid)
+            if profil.password == password:
+               return redirect("/netflix/" + profilid + "/")
+            else:
+               messages.warning(request, "profil şifresi yanlış!!")
 
-         return redirect('profilePage')
 
    context = {
       "profils": profils,
@@ -56,6 +65,9 @@ def loginUser(request):
    context = {}
    return render(request, 'user/login.html', context)
 
+def logoutUser(request):
+   logout(request)
+   return redirect('index')
 
 def registerUser(request):
 

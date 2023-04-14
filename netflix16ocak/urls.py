@@ -24,11 +24,12 @@ from appUser.views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index, name='index'),
-    path('netflix/', netflixPage, name='netflixPage'),
+    path('netflix/<id>/', netflixPage, name='netflixPage'),
     # USER 
     path('profile/', profilePage, name='profilePage'),
     path('account/', accountPage, name='accountPage'),
     path('login/', loginUser, name='loginUser'),
+    path('logout/', logoutUser, name='logoutUser'),
     path('register/', registerUser, name='registerUser'), 
     path('profildelete/<id>/', profilDelete, name='profilDelete')
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

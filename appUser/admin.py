@@ -3,4 +3,9 @@ from .models import *
 # Register your models here.
 
 
-admin.site.register(Profil)
+@admin.register(Profil)
+class ProfilAdmin(admin.ModelAdmin):
+
+   list_display = ('user','title','id')
+   
+

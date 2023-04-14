@@ -51,14 +51,44 @@
         {% for i in profils %}
         <div class="col-3 mt-5 mb-5" style="position: relative;">
             <a href="{% url 'profilDelete' i.id %}" class="btn btn-danger" style="position: absolute; right: 12px; z-index: 50;">x</a>
-            <a href="browse-index.html" class="text-decoration-none text-secondary">
+
+            
+            <a href="{% url 'netflixPage' i.id %}" {% if i.password_active == True %} data-bs-toggle="modal" data-bs-target="#password{{ i.id }}"{% endif %} class="text-decoration-none text-secondary">
                 <div class="card bg-transparent">
+                    
+                    {% if i.image %}
                     <img src="{{ i.image.url }}" class="card-img-top" alt="">
+                    {% else %}
+                    <img src="{% static 'img/smile-icon.jpg' %}" class="card-img-top" alt="">  
+                    {% endif %}
+                        
                     <div>
                         <h5 class="card-title text-center ">{{ i.title }}</h5>
                     </div>
                 </div>
             </a>
+            
+            <!-- Modal -->
+            <div class="modal fade" id="password{{ i.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <form method="POST" class="modal-content">
+                        {% csrf_token %}
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Profil Şifresi Giriniz</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <label for="password">Şifre:</label>
+                            <input type="password" name="password" id="password" class="form-control">
+                            <input type="hidden" name="profilid" value="{{ i.id }}">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" name="submit" value="profil-password" class="btn btn-primary">Giriş Yap</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
         </div>
         {% endfor %}
             
@@ -95,7 +125,7 @@
                                 
                             </div>
                             <div class="modal-footer">
-                                <button type="submit" class="btn btn-primary">Profili Oluştur</button>
+                                <button type="submit" name="submit" value="profil-create" class="btn btn-primary">Profili Oluştur</button>
                             </div>
                         </form>
                     </div>
