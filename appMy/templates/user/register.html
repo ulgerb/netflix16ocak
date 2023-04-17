@@ -87,6 +87,7 @@
          <div class="mb-3">
             <input type="text" name="fname" value="{{ fname }}" class="form-control form-control-lg mt-3" placeholder="İsim">
             <input type="text" name="email" value="{{ email }}" class="form-control form-control-lg mt-3 {% if hata == 'email' %}border border-danger{% endif %}" placeholder="Email">
+            <input type="tel" name="tel" value="" class="form-control form-control-lg mt-3 {% if hata == 'email' %}border border-danger{% endif %}" placeholder="Telefon No">
             <input type="text" name="username" value="{{ username }}" class="form-control form-control-lg mt-3 {% if hata == 'username' %}border border-danger{% endif %}" placeholder="Kullanıcı Adı">
             <input type="password" name="password1" value="{{ password1 }}" id="" class="form-control form-control-lg mt-3 {% if hata == 'password' %}border border-danger{% endif %}" placeholder="Şifre">
             <input type="password" name="password2" id="" class="form-control form-control-lg mt-3" placeholder="Yeniden Şifre">

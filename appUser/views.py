@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib import messages
-from .models import Profil
+from .models import *
 # Create your views here.
 
 # === YAPILACAKLAR === Profillere şifre oluştur
@@ -42,7 +42,50 @@ def profilDelete(request, id):
 
 
 def accountPage(request):
-   context = {}
+   userinfo = Account.objects.get(user=request.user)
+   user = User.objects.get(username=request.user)
+   if request.method == "POST":
+      button = request.POST.get("submit")
+      if button == "btn-email":
+         newemail = request.POST.get("new-email")
+         password = request.POST.get("password")
+         if request.user.check_password(password):
+            user.email = newemail
+            user.save()
+            messages.success(request, "Email'i başarıyla değiştirdiniz")
+         else:
+            messages.warning(request, "Şifreniz yanlış !!")
+      if button == "btn-password":
+         newpassword = request.POST.get("new-password")
+         password = request.POST.get("password")
+         if request.user.check_password(password):
+            userinfo.password = newpassword
+            userinfo.save()
+
+            user.set_password(newpassword)
+            user.save()
+            
+            messages.success(request, "Şifreyi başarıyla değiştirdiniz")
+            return redirect("loginUser")
+         else:
+            messages.warning(request, "Şifreniz yanlış !!")
+            
+      if button == "btn-tel":
+         newtel = request.POST.get("new-tel")
+         password = request.POST.get("password")
+         if request.user.check_password(password):
+            userinfo.tel = newtel
+            userinfo.save()
+            messages.success(request, "tel'i başarıyla değiştirdiniz")
+         else:
+            messages.warning(request, "Şifreniz yanlış !!")
+            
+      return redirect("accountPage")
+            
+   
+   context = {
+      "userinfo":userinfo,
+   }
    return render(request, 'user/hesap.html', context)
 
 
@@ -77,6 +120,7 @@ def registerUser(request):
       username = request.POST.get("username")
       password1 = request.POST.get("password1")
       password2 = request.POST.get("password2")
+      tel = request.POST.get("tel")
 
       if password1 == password2:
          if not User.objects.filter(username=username).exists():
@@ -84,6 +128,10 @@ def registerUser(request):
                   user = User.objects.create_user(
                      username=username, password=password1, first_name=fname, email=email)
                   user.save()
+
+                  account = Account(user=user, password = password1, tel=tel)
+                  account.save()
+                  
                   messages.success(
                      request, "Kaydınız Başarıyla Oluşturuldu..")
                   return redirect("loginUser")

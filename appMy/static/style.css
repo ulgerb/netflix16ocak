@@ -4,6 +4,20 @@ body, html {
     font-family: Arial, Helvetica, sans-serif;
     background-color: rgb(34, 34, 34);
 }
+
+/* ALERT */
+.alert-animate{
+    animation: alert 3s both;
+}
+@keyframes alert {
+    70%{
+        opacity: 1;
+    }
+    100%{
+        opacity: 0;
+    }
+}
+
 /* Hero image */
 .hero-image {
     background-image: linear-gradient(rgb(0, 0, 0, 0.6), rgb(0, 0, 0, 0.6)), url(img/arkaplan.jpg);

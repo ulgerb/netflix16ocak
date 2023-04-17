@@ -8,4 +8,8 @@ class ProfilAdmin(admin.ModelAdmin):
 
    list_display = ('user','title','id')
    
+@admin.register(Account)
+class AccountAdmin(admin.ModelAdmin):
+ 
+   list_display = ('user','tel','id')
 

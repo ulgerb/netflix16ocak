@@ -14,10 +14,19 @@ class Profil(models.Model):
       return self.user.username
    
 
-@receiver(pre_delete, sender=Profil)
+@receiver(pre_delete, sender=Profil) # silinen objenin resmini media dosyasından kaldırır
 def post_delete(sender, instance, **kwargs):
     instance.image.delete(False)
 
+
+class Account(models.Model):
+    user = models.ForeignKey(User, verbose_name=("Kullanıcı"), on_delete=models.CASCADE)
+    password = models.CharField(("Şifre"), max_length=50)
+    tel =  models.CharField(("Telefon"), max_length=50)
+
+    def __str__(self):
+      return self.user.username
+    
 
 # @receiver(pre_delete, sender=Profil)
 # def post_delete(sender, instance, **kwargs):
